@@ -20,3 +20,14 @@ else()
 endif()
 
 add_test(NAME cosigner_test COMMAND cosigner_test)
+
+# Isolated single-file binary: it overrides global operator new/delete to count
+# allocations, so it must not share a binary with the other cosigner tests.
+# Demonstrates the leak/UB in ecdsa_preprocessing_data's destructor.
+add_executable(cosigner_preprocessing_data_leak_test ecdsa_preprocessing_data_leak_test.cpp)
+if(APPLE)
+    target_link_libraries(cosigner_preprocessing_data_leak_test PRIVATE tests_main cosigner Threads::Threads)
+else()
+    target_link_libraries(cosigner_preprocessing_data_leak_test PRIVATE tests_main cosigner Threads::Threads UUID::UUID)
+endif()
+add_test(NAME cosigner_preprocessing_data_leak_test COMMAND cosigner_preprocessing_data_leak_test)
