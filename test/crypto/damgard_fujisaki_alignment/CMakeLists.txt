@@ -1,0 +1,6 @@
+add_executable(damgard_fujisaki_alignment_test tests.cpp)
+
+target_compile_options(damgard_fujisaki_alignment_test PRIVATE -Wall -Wextra)
+target_link_libraries(damgard_fujisaki_alignment_test PRIVATE tests_main)
+
+add_test(NAME damgard_fujisaki_alignment_test COMMAND damgard_fujisaki_alignment_test)
