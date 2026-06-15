@@ -20,3 +20,11 @@ else()
 endif()
 
 add_test(NAME cosigner_test COMMAND cosigner_test)
+
+# High-level (cosigner-level) reproducer for the ring_pedersen misaligned-uint32
+# access bug; standalone executable (it has its own main(), not a Catch test).
+add_executable(align_repro align_repro.cpp)
+target_compile_options(align_repro PRIVATE -Wall -Wextra)
+target_include_directories(align_repro PRIVATE ${PROJECT_SOURCE_DIR}/src/common)
+target_link_libraries(align_repro PRIVATE cosigner)
+add_test(NAME align_repro COMMAND align_repro)
